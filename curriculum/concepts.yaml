@@ -1,0 +1,89 @@
+# AI-engineering concept graph (the DAG the curriculum spirals through).
+# mastery: 0 unseen · 1 introduced · 2 applied once · 3 reused in a harder context · 4 fluent/can-teach.
+# A concept only climbs to 3–4 by REappearing in later units — depth comes from reuse, not one pass.
+# Start assumption: solid general SWE, light hands-on LLM/agent work.
+
+concepts:
+  # --- io ---
+  - { id: prompt-fundamentals,      name: Prompting fundamentals,        domain: io,            tier: foundational, prerequisites: [],                                  mastery: 0 }
+  - { id: structured-outputs,       name: Structured outputs,            domain: io,            tier: foundational, prerequisites: [prompt-fundamentals],              mastery: 0 }
+  - { id: streaming,                name: Streaming,                     domain: io,            tier: foundational, prerequisites: [prompt-fundamentals],              mastery: 0 }
+
+  # --- tools ---
+  - { id: function-calling,         name: Function / tool calling,       domain: tools,         tier: foundational, prerequisites: [structured-outputs],               mastery: 0 }
+  - { id: tool-design,              name: Tool-surface design,           domain: tools,         tier: intermediate, prerequisites: [function-calling],                mastery: 0 }
+  - { id: mcp,                      name: MCP servers,                   domain: tools,         tier: intermediate, prerequisites: [tool-design],                     mastery: 0 }
+  - { id: programmatic-tool-calling, name: Programmatic tool calling,    domain: tools,         tier: advanced,     prerequisites: [tool-design, agent-loop],          mastery: 0 }
+
+  # --- orchestration ---
+  - { id: agent-loop,               name: Agent loop,                    domain: orchestration, tier: foundational, prerequisites: [function-calling],                mastery: 0 }
+  - { id: workflow-vs-agent,        name: Workflow vs agent,             domain: orchestration, tier: foundational, prerequisites: [agent-loop],                     mastery: 0 }
+
+  # --- retrieval ---
+  - { id: embeddings,               name: Embeddings,                    domain: retrieval,     tier: foundational, prerequisites: [prompt-fundamentals],              mastery: 0 }
+  - { id: vector-store,             name: Vector store + indexing,       domain: retrieval,     tier: intermediate, prerequisites: [embeddings],                      mastery: 0 }
+  - { id: retrieval-rag,            name: Retrieval / RAG,               domain: retrieval,     tier: intermediate, prerequisites: [vector-store, structured-outputs], mastery: 0 }
+  - { id: reranking,                name: Reranking,                     domain: retrieval,     tier: advanced,     prerequisites: [retrieval-rag],                    mastery: 0 }
+
+  # --- evals ---
+  - { id: eval-datasets,            name: Eval datasets,                 domain: evals,         tier: intermediate, prerequisites: [structured-outputs],               mastery: 0 }
+  - { id: llm-as-judge,             name: LLM-as-judge,                  domain: evals,         tier: intermediate, prerequisites: [eval-datasets],                    mastery: 0 }
+  - { id: regression-evals,         name: Regression evals (CI),         domain: evals,         tier: advanced,     prerequisites: [llm-as-judge],                     mastery: 0 }
+
+  # --- cost ---
+  - { id: prompt-caching,           name: Prompt caching,                domain: cost,          tier: intermediate, prerequisites: [agent-loop],                       mastery: 0 }
+  - { id: token-budgeting,          name: Token budgeting,               domain: cost,          tier: intermediate, prerequisites: [agent-loop],                       mastery: 0 }
+  - { id: model-routing,            name: Model routing (cheap/strong),  domain: cost,          tier: advanced,     prerequisites: [agent-loop, llm-as-judge],         mastery: 0 }
+
+  # --- observability ---
+  - { id: tracing,                  name: Tracing,                       domain: observability, tier: intermediate, prerequisites: [agent-loop],                       mastery: 0 }
+  - { id: telemetry-cost,           name: Cost/latency telemetry,        domain: observability, tier: advanced,     prerequisites: [tracing, token-budgeting],         mastery: 0 }
+
+  # --- memory / context ---
+  - { id: memory-state,             name: Memory & state,                domain: memory,        tier: advanced,     prerequisites: [agent-loop],                       mastery: 0 }
+  - { id: context-engineering,      name: Context engineering,           domain: context,       tier: advanced,     prerequisites: [agent-loop, prompt-caching],       mastery: 0 }
+
+  # --- multi-agent ---
+  - { id: multi-agent,              name: Multi-agent orchestration,     domain: multi-agent,   tier: advanced,     prerequisites: [agent-loop, tracing],              mastery: 0 }
+
+  # --- safety ---
+  - { id: guardrails,               name: Guardrails / safety,           domain: guardrails,    tier: advanced,     prerequisites: [structured-outputs, llm-as-judge], mastery: 0 }
+
+  # --- serving ---
+  - { id: serving-quantization,     name: Serving & quantization,        domain: serving,       tier: advanced,     prerequisites: [prompt-fundamentals],              mastery: 0 }
+  - { id: latency-scaling,          name: Latency & scaling,             domain: serving,       tier: advanced,     prerequisites: [serving-quantization, telemetry-cost], mastery: 0 }
+
+  # --- fine-tuning ---
+  - { id: finetuning-lora,          name: Fine-tuning (LoRA, when-not-to), domain: finetuning,  tier: advanced,     prerequisites: [eval-datasets, serving-quantization], mastery: 0 }
+  - { id: preference-tuning,        name: Preference tuning (RLHF/DPO/RFT), domain: finetuning, tier: advanced,     prerequisites: [finetuning-lora, eval-datasets],   mastery: 0 }
+  - { id: distillation,             name: Distillation,                  domain: finetuning,    tier: advanced,     prerequisites: [eval-datasets, model-routing],     mastery: 0 }
+
+  # === Added from real-world research (engineering blogs + protocol survey, 2026-06-05) ===
+  # io / reasoning
+  - { id: reasoning-thinking,       name: Reasoning & thinking modes,    domain: io,            tier: intermediate, prerequisites: [prompt-fundamentals],              mastery: 0 }
+  - { id: multimodal,               name: Multimodal (vision/audio),     domain: io,            tier: intermediate, prerequisites: [prompt-fundamentals],              mastery: 0 }
+  # orchestration / agentic
+  - { id: agentic-patterns,         name: Agentic patterns (ReAct/plan/reflect), domain: orchestration, tier: intermediate, prerequisites: [agent-loop],            mastery: 0 }
+  - { id: human-in-the-loop,        name: Human-in-the-loop / approvals, domain: orchestration, tier: intermediate, prerequisites: [agent-loop],                      mastery: 0 }
+  - { id: model-gateway,            name: Model gateway (router/fallbacks/limits), domain: orchestration, tier: intermediate, prerequisites: [agent-loop],         mastery: 0 }
+  - { id: computer-use,             name: Computer / browser use,        domain: tools,         tier: advanced,     prerequisites: [tool-design, agent-loop],          mastery: 0 }
+  # retrieval depth
+  - { id: hybrid-search,            name: Hybrid search (BM25+vector),   domain: retrieval,     tier: intermediate, prerequisites: [retrieval-rag],                    mastery: 0 }
+  - { id: query-rewriting,          name: Query rewriting,               domain: retrieval,     tier: intermediate, prerequisites: [retrieval-rag],                    mastery: 0 }
+  - { id: contextual-retrieval,     name: Contextual retrieval,          domain: retrieval,     tier: advanced,     prerequisites: [retrieval-rag, embeddings],        mastery: 0 }
+  - { id: agentic-rag,              name: Agentic RAG,                   domain: retrieval,     tier: advanced,     prerequisites: [retrieval-rag, agent-loop],        mastery: 0 }
+  - { id: graphrag,                 name: GraphRAG (knowledge-graph RAG), domain: retrieval,    tier: advanced,     prerequisites: [retrieval-rag],                    mastery: 0 }
+  # evals depth
+  - { id: agent-eval-trajectory,    name: Agent / trajectory evaluation, domain: evals,         tier: advanced,     prerequisites: [llm-as-judge, agent-loop],         mastery: 0 }
+  - { id: synthetic-data,           name: Synthetic data generation,     domain: evals,         tier: intermediate, prerequisites: [eval-datasets],                    mastery: 0 }
+  # cost / observability
+  - { id: semantic-caching,         name: Semantic caching,              domain: cost,          tier: intermediate, prerequisites: [embeddings, prompt-caching],        mastery: 0 }
+  - { id: prompt-versioning,        name: Prompt & experiment versioning, domain: observability, tier: intermediate, prerequisites: [tracing],                         mastery: 0 }
+  # multi-agent protocols
+  - { id: a2a-protocol,             name: Agent-to-agent protocols (A2A/ACP/AG-UI), domain: multi-agent, tier: advanced, prerequisites: [multi-agent, mcp],          mastery: 0 }
+  # safety / privacy
+  - { id: prompt-injection-defense, name: Prompt-injection defense,      domain: guardrails,    tier: advanced,     prerequisites: [agent-loop, guardrails],           mastery: 0 }
+  - { id: red-teaming,              name: Red-teaming,                   domain: guardrails,    tier: advanced,     prerequisites: [prompt-injection-defense],         mastery: 0 }
+  - { id: pii-privacy,              name: PII / privacy / compliance,    domain: guardrails,    tier: intermediate, prerequisites: [structured-outputs],               mastery: 0 }
+  # serving depth
+  - { id: continuous-batching,      name: Continuous batching & speculative decoding, domain: serving, tier: advanced, prerequisites: [serving-quantization],       mastery: 0 }
