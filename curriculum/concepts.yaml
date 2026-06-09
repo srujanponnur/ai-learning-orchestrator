@@ -121,3 +121,12 @@ concepts:
   - { id: compaction,           name: Context compaction (summarize history to fit the window), domain: context, tier: advanced, prerequisites: [context-engineering],            mastery: 0 }
   - { id: response-latency,     name: Reducing response latency (streaming, caching, output caps, model tier, parallel calls), domain: ops, tier: intermediate, prerequisites: [streaming, prompt-caching, model-selection], mastery: 0 }
   - { id: llm-app-deployment,   name: Deploying & operating LLM apps (containerize, scaling, gateways, secrets, monitoring), domain: ops, tier: advanced, prerequisites: [api-sdk-basics, error-handling, tracing], mastery: 0 }
+
+  # === Production eval/monitoring + levers & industry topics (added 2026-06-08) ===
+  - { id: online-evals,         name: Online / production evals (live scoring, user-feedback loops), domain: evals, tier: advanced, prerequisites: [llm-as-judge, tracing],     mastery: 0 }
+  - { id: drift-monitoring,     name: Drift & quality monitoring in production, domain: observability, tier: advanced, prerequisites: [tracing, online-evals],                  mastery: 0 }
+  - { id: batch-processing,     name: Batch / async processing (cheaper non-urgent jobs), domain: cost, tier: intermediate, prerequisites: [api-sdk-basics],                    mastery: 0 }
+  - { id: prompt-optimization,  name: Prompt optimization (eval-driven / automatic, DSPy-style), domain: io, tier: advanced, prerequisites: [prompt-templating, eval-datasets], mastery: 0 }
+  - { id: voice-agents,         name: Realtime voice agents (STT/TTS, turn-taking, realtime APIs), domain: io, tier: advanced, prerequisites: [multimodal, agent-loop],          mastery: 0 }
+  - { id: text-to-sql,          name: Text-to-SQL / structured-data agents (schema grounding, safety), domain: tools, tier: advanced, prerequisites: [tool-design, structured-outputs], mastery: 0 }
+  - { id: edge-inference,       name: Edge / on-device inference (llama.cpp/gguf, mobile, small models), domain: serving, tier: advanced, prerequisites: [serving-quantization, mixed-precision], mastery: 0 }
