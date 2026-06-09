@@ -101,3 +101,17 @@ concepts:
   - { id: cost-basics,          name: Cost basics (tokens to dollars),         domain: cost,          tier: foundational, prerequisites: [tokenization],       mastery: 0 }
   - { id: error-handling,       name: Errors, retries & rate limits,           domain: observability, tier: foundational, prerequisites: [api-sdk-basics],      mastery: 0 }
   - { id: chunking,             name: Chunking & text splitting,               domain: retrieval,     tier: foundational, prerequisites: [tokenization],       mastery: 0 }
+
+  # === GPU / serving infrastructure (added 2026-06-08) — running models efficiently on hardware ===
+  - { id: gpu-fundamentals,      name: GPU fundamentals for inference (VRAM, bandwidth, FLOPs), domain: gpu, tier: foundational, prerequisites: [llm-basics],                          mastery: 0 }
+  - { id: mixed-precision,       name: Mixed precision & low-bit inference (fp16/bf16/fp8/int4), domain: gpu, tier: intermediate, prerequisites: [gpu-fundamentals],                    mastery: 0 }
+  - { id: gpu-memory,            name: GPU memory & KV-cache budgeting,         domain: gpu,           tier: intermediate, prerequisites: [gpu-fundamentals, tokenization],        mastery: 0 }
+  - { id: flash-attention,       name: Efficient attention kernels (FlashAttention), domain: gpu,      tier: advanced,     prerequisites: [gpu-fundamentals],                       mastery: 0 }
+  - { id: paged-attention,       name: Paged attention & KV-cache paging (vLLM), domain: gpu,          tier: advanced,     prerequisites: [gpu-memory],                             mastery: 0 }
+  - { id: inference-engines,     name: Inference engines (vLLM/TGI/TensorRT-LLM/SGLang), domain: gpu,  tier: advanced,     prerequisites: [gpu-fundamentals, serving-quantization], mastery: 0 }
+  - { id: gpu-utilization,       name: GPU utilization & profiling (occupancy, compute vs memory-bound), domain: gpu, tier: advanced, prerequisites: [gpu-fundamentals],               mastery: 0 }
+  - { id: multi-gpu-parallelism, name: Multi-GPU parallelism (tensor/pipeline/sharding), domain: gpu,  tier: advanced,     prerequisites: [gpu-memory],                             mastery: 0 }
+  - { id: gpu-hosting,           name: GPU hosting & provisioning (cloud/serverless GPU, H100/A100/L4, on-prem), domain: gpu, tier: intermediate, prerequisites: [gpu-fundamentals],     mastery: 0 }
+  - { id: gpu-autoscaling,       name: GPU autoscaling & scale-to-zero serving, domain: gpu,           tier: advanced,     prerequisites: [gpu-hosting, latency-scaling],           mastery: 0 }
+  - { id: gpu-cost-optimization, name: GPU cost/throughput optimization ($/token, spot, right-sizing), domain: gpu, tier: advanced, prerequisites: [gpu-hosting, gpu-utilization],       mastery: 0 }
+  - { id: gpu-sharing,           name: GPU sharing (MIG, time-slicing, fractional GPUs), domain: gpu,  tier: advanced,     prerequisites: [gpu-hosting],                            mastery: 0 }
