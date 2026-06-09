@@ -143,3 +143,31 @@ concepts:
   - { id: vector-memory,        name: Vector-backed memory (embed past context, retrieve what's relevant), domain: memory, tier: advanced, prerequisites: [memory-state, vector-store], mastery: 0 }
   - { id: memory-management,    name: Memory management (what to store/forget, summarize, evict by relevance), domain: memory, tier: advanced, prerequisites: [memory-state, compaction], mastery: 0 }
   - { id: memory-tool,          name: Memory-tool pattern (agent reads/writes a persistent memory store), domain: memory, tier: advanced, prerequisites: [memory-state, tool-design], mastery: 0 }
+
+  # === Discovered (auto, via discover.py) ===
+  - { id: context-rot, name: "Context rot", domain: context, tier: intermediate, prerequisites: [context-window, context-engineering], mastery: 0 }
+  - { id: agent-skills, name: "Agent Skills", domain: orchestration, tier: intermediate, prerequisites: [agentic-patterns, context-engineering, tool-design], mastery: 0 }
+  - { id: managed-agents, name: "Managed agents (brain/hands/session decoupling)", domain: orchestration, tier: advanced, prerequisites: [agent-loop, multi-agent, memory-state], mastery: 0 }
+  - { id: tool-search, name: "Progressive tool discovery / tool search", domain: tools, tier: intermediate, prerequisites: [tool-design, mcp, context-engineering], mastery: 0 }
+  - { id: agent-sandboxing, name: "Agent execution sandboxing", domain: guardrails, tier: advanced, prerequisites: [computer-use, guardrails], mastery: 0 }
+  - { id: ag-ui-protocol, name: "AG-UI Protocol", domain: io, tier: intermediate, prerequisites: [chat-ui-streaming, a2a-protocol], mastery: 0 }
+  - { id: mcp-apps, name: "MCP Apps", domain: tools, tier: advanced, prerequisites: [mcp], mastery: 0 }
+  - { id: mcp-tasks, name: "MCP Tasks Extension", domain: orchestration, tier: advanced, prerequisites: [mcp], mastery: 0 }
+  - { id: stateless-mcp, name: "Stateless MCP Core", domain: serving, tier: advanced, prerequisites: [mcp], mastery: 0 }
+  - { id: agent-payments-protocol, name: "Agent Payments Protocol (AP2)", domain: guardrails, tier: advanced, prerequisites: [a2a-protocol], mastery: 0 }
+  - { id: durable-agent-execution, name: "Durable Agent Execution", domain: orchestration, tier: advanced, prerequisites: [agent-loop, memory-state], mastery: 0 }
+  - { id: deep-agents, name: "Deep Agents Harness", domain: orchestration, tier: intermediate, prerequisites: [multi-agent, context-engineering, agentic-patterns], mastery: 0 }
+  - { id: prefill-decode-disaggregation, name: "Prefill/Decode Disaggregation", domain: serving, tier: advanced, prerequisites: [continuous-batching, inference-engines, paged-attention], mastery: 0 }
+  - { id: speculative-decoding, name: "Speculative Decoding (EAGLE-3)", domain: serving, tier: intermediate, prerequisites: [inference-engines, sampling-params], mastery: 0 }
+  - { id: kv-cache-offloading, name: "KV Cache Offloading", domain: serving, tier: intermediate, prerequisites: [paged-attention, memory-management], mastery: 0 }
+  - { id: fp4-quantization, name: "FP4 Quantization (NVFP4/MXFP4)", domain: serving, tier: advanced, prerequisites: [serving-quantization, mixed-precision], mastery: 0 }
+  - { id: chunked-prefill, name: "Chunked Prefill Scheduling", domain: serving, tier: intermediate, prerequisites: [continuous-batching, paged-attention], mastery: 0 }
+  - { id: expert-parallelism, name: "Wide Expert Parallelism (MoE serving)", domain: gpu, tier: advanced, prerequisites: [multi-gpu-parallelism, inference-engines], mastery: 0 }
+  - { id: kv-cache-aware-routing, name: "KV-Cache-Aware Routing", domain: serving, tier: advanced, prerequisites: [prompt-caching, model-routing], mastery: 0 }
+  - { id: kv-cache-quantization, name: "KV Cache Quantization", domain: serving, tier: intermediate, prerequisites: [serving-quantization, paged-attention], mastery: 0 }
+  - { id: inference-gateway, name: "Gateway API Inference Extension", domain: ops, tier: intermediate, prerequisites: [model-routing, llm-app-deployment], mastery: 0 }
+  - { id: otel-genai-semconv, name: "OpenTelemetry GenAI Semantic Conventions", domain: observability, tier: intermediate, prerequisites: [tracing, telemetry-cost], mastery: 0 }
+  - { id: pass-hat-k, name: "pass^k consistency metric", domain: evals, tier: intermediate, prerequisites: [agent-eval-trajectory, regression-evals], mastery: 0 }
+  - { id: llm-judge-calibration, name: "LLM-as-judge calibration", domain: evals, tier: advanced, prerequisites: [llm-as-judge, eval-datasets], mastery: 0 }
+  - { id: rubric-based-eval, name: "Rubric-based evaluation", domain: evals, tier: intermediate, prerequisites: [llm-as-judge], mastery: 0 }
+  - { id: agent-reliability-metrics, name: "Agent reliability metrics framework", domain: evals, tier: advanced, prerequisites: [agent-eval-trajectory, online-evals], mastery: 0 }

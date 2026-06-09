@@ -109,3 +109,34 @@ general eng blog, filter for AI/LLM posts.
 adversarially verifies novelty/relevance (kills hype), then procures survivors as new concept nodes +
 new sources, and mines standout posts into `units/case-studies/`. Add new high-signal sources here as
 they're discovered; prune dead ones.
+
+## Discovered (auto, via discover.py)
+- **Anthropic Engineering — Scaling Managed Agents** — <https://www.anthropic.com/engineering/managed-agents> — Apr 8 2026; decoupling brain/hands/session for scalable server-side agents.
+- **Anthropic — Agent Skills overview** — <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview> — Open filesystem-based skill format with progressive disclosure.
+- **Morph — Context Rot guide (Chroma research)** — <https://www.morphllm.com/context-rot> — Frontier models degrade as input token count grows.
+- **MarkTechPost — Tool Search for MCP** — <https://www.marktechpost.com/2026/05/29/hermes-agent-ships-tool-search-for-mcp-anthropic-evals-show-49-to-74-accuracy-gain-on-opus-4/> — Progressive schema disclosure; 49%→74% accuracy gain on large tool sets.
+- **AGNTCY Identity docs (Linux Foundation)** — <https://docs.agntcy.org/identity/identity/> — DIDs and verifiable credentials for agents and MCP servers.
+- **Northflank — How to sandbox AI agents** — <https://northflank.com/blog/how-to-sandbox-ai-agents> — microVM/gVisor/V8 isolation patterns for agent code execution.
+- **MCP 2026-07-28 Spec Release Candidate** — <https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/> — Official MCP blog: stateless core, MCP Apps, Tasks, Extensions framework
+- **Agentic Commerce Protocol (GitHub)** — <https://github.com/agentic-commerce-protocol/agentic-commerce-protocol> — OpenAI/Stripe agent-checkout standard
+- **AP2 Documentation** — <https://ap2-protocol.org/> — Google-led Agent Payments Protocol; mandates as verifiable credentials
+- **Coinbase x402 (GitHub)** — <https://github.com/coinbase/x402> — HTTP-402 internet-native payments protocol for agents and APIs
+- **Google ADK long-running agents** — <https://developers.googleblog.com/build-long-running-ai-agents-that-pause-resume-and-never-lose-context-with-adk/> — Pause/resume durable execution for agents
+- **LangChain Deep Agents docs** — <https://docs.langchain.com/oss/python/deepagents/overview> — Planning + subagents + virtual filesystem harness pattern
+- **vLLM — Disaggregated Prefilling** — <https://docs.vllm.ai/en/v0.7.3/features/disagg_prefill.html> — Official docs on splitting prefill/decode across instances via KV transfer connectors.
+- **MarkTechPost — EAGLE 3.1** — <https://www.marktechpost.com/2026/05/27/meet-eagle-3-1-the-speculative-decoding-algorithm-that-fixes-attention-drift-in-llm-inference/> — May 2026 update to EAGLE-3 speculative decoding for vLLM.
+- **LMCache (arXiv 2510.09665)** — <https://arxiv.org/abs/2510.09665> — Enterprise-scale KV cache offloading layer for vLLM/SGLang.
+- **NVIDIA — NVFP4 QAD Report** — <https://research.nvidia.com/labs/nemotron/files/NVFP4-QAD-Report.pdf> — March 2026 NVFP4 4-bit inference accuracy recovery via quantization-aware distillation.
+- **USENIX OSDI24 — Sarathi-Serve** — <https://www.usenix.org/conference/osdi24/presentation/agrawal> — Chunked-prefill / stall-free scheduling now adopted as vLLM default.
+- **NVIDIA — Wide Expert Parallelism on NVL72** — <https://developer.nvidia.com/blog/scaling-large-moe-models-with-wide-expert-parallelism-on-nvl72-rack-scale-systems/> — Wide-EP serving for large MoE models at rack scale.
+- **llm-d — KV-Cache Wins You Can See** — <https://llm-d.ai/blog/kvcache-wins-you-can-see> — Prefix/KV-cache-aware distributed scheduling and routing.
+- **vLLM Blog — FP8 KV-Cache & Attention** — <https://vllm-project.github.io/2026/04/22/fp8-kvcache.html> — April 2026 state of KV cache quantization in vLLM.
+- **Kubernetes — Gateway API Inference Extension** — <https://gateway-api-inference-extension.sigs.k8s.io/> — Inference Gateway / Endpoint Picker standard, GA 2026.
+- **NVIDIA — NIXL / Dynamo distributed inference** — <https://developer.nvidia.com/blog/enhancing-distributed-inference-performance-with-the-nvidia-inference-transfer-library/> — KV transfer library underpinning disaggregated serving.
+- **OpenTelemetry — Semantic conventions for generative AI** — <https://opentelemetry.io/docs/specs/semconv/gen-ai/> — Official CNCF spec for GenAI spans, metrics, and evaluation events
+- **OpenTelemetry blog — Inside the LLM Call: GenAI Observability** — <https://opentelemetry.io/blog/2026/genai-observability/> — 2026 overview of GenAI semconv status and six telemetry layers
+- **Philipp Schmid — pass@k vs pass^k** — <https://www.philschmid.de/agents-pass-at-k-pass-power-k> — Explains pass^k consistency metric and τ-bench reliability drop-off
+- **Judge's Verdict (arXiv 2510.09738)** — <https://arxiv.org/html/2510.09738v1> — Analyzes LLM judge capability via human-agreement / kappa thresholds
+- **Autorubric (arXiv 2603.00077)** — <https://arxiv.org/html/2603.00077v2> — Unified rubric-based, criterion-separated LLM evaluation framework
+- **Towards a Science of AI Agent Reliability (arXiv 2602.16666)** — <https://arxiv.org/abs/2602.16666> — Twelve metrics across consistency/robustness/predictability/safety
+- **Characterizing Faults in Agentic AI (arXiv 2603.06847)** — <https://arxiv.org/abs/2603.06847> — Taxonomy of 37 fault types / symptoms / root causes for agents
