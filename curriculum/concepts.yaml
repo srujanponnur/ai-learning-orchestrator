@@ -136,3 +136,10 @@ concepts:
   - { id: data-pipelines,       name: Data ingestion & indexing pipelines (ETL, incremental re-index), domain: retrieval, tier: advanced, prerequisites: [document-parsing, vector-store], mastery: 0 }
   - { id: ai-ux-patterns,       name: AI product UX (streaming display, thinking/loading states, citations, error/retry), domain: frontend, tier: intermediate, prerequisites: [streaming], mastery: 0 }
   - { id: chat-ui-streaming,    name: Building chat UIs (SSE/stream handling, message state, markdown/code rendering), domain: frontend, tier: intermediate, prerequisites: [streaming, ai-ux-patterns], mastery: 0 }
+
+  # === Agent memory architectures (added 2026-06-08) — was the thinnest domain ===
+  - { id: working-memory,       name: Working / short-term memory (in-session scratchpad & buffer), domain: memory, tier: intermediate, prerequisites: [agent-loop],            mastery: 0 }
+  - { id: long-term-memory,     name: Long-term memory across sessions (persist & recall; episodic vs semantic), domain: memory, tier: advanced, prerequisites: [memory-state], mastery: 0 }
+  - { id: vector-memory,        name: Vector-backed memory (embed past context, retrieve what's relevant), domain: memory, tier: advanced, prerequisites: [memory-state, vector-store], mastery: 0 }
+  - { id: memory-management,    name: Memory management (what to store/forget, summarize, evict by relevance), domain: memory, tier: advanced, prerequisites: [memory-state, compaction], mastery: 0 }
+  - { id: memory-tool,          name: Memory-tool pattern (agent reads/writes a persistent memory store), domain: memory, tier: advanced, prerequisites: [memory-state, tool-design], mastery: 0 }
