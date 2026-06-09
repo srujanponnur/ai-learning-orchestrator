@@ -28,6 +28,8 @@ TEACH_SYSTEM = (
     "then '### Watch out for' with 2–3 pitfall bullets. Under ~220 words."
 )
 
+TODO_BUFFER = 3   # keep ~this many unstarted ('todo') units queued ahead; refill when below
+
 
 def teach_brief(u: dict) -> str:
     prompt = (f"Unit: {u.get('title')}\nTier: {u.get('tier')}\n"
@@ -81,17 +83,17 @@ def main() -> int:
             print(f"  teach-me failed for {r['unit_id']}: {exc}")
     print(f"teach-me: {taught} unit(s) written")
 
-    # 4. top up the roadmap only if nothing is left to build
+    # 4. keep a small runway of upcoming units — curate when the 'todo' buffer runs low
     todo = [u for u in units if str(u.get("status", "todo")).lower() == "todo"]
-    if not todo:
-        print("no 'todo' units left — curating the next ones")
+    if len(todo) < TODO_BUFFER:
+        print(f"{len(todo)} 'todo' unit(s) < buffer {TODO_BUFFER} — curating the next ones")
         try:
             curate.propose_and_write("next")
             units = store.load_units()
         except Exception as exc:
             print(f"  curate failed: {exc}")
     else:
-        print(f"{len(todo)} 'todo' unit(s) remain — not curating new ones")
+        print(f"{len(todo)} 'todo' unit(s) queued (buffer {TODO_BUFFER}) — not curating")
 
     # 5. push everything back to Notion
     notion.write_legend(token, store.load_concepts(), units)
