@@ -23,5 +23,11 @@ schtasks /Create /TN $taskName /SC DAILY /ST $startTime /F /TR "$cmd"
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable
 Set-ScheduledTask -TaskName $taskName -Settings $settings | Out-Null
 
-Write-Host "Scheduled '$taskName' daily at $startTime (catch-up on missed runs enabled)."
-Write-Host "Runs: $cmd"
+# --- Weekly discovery swarm (discover.py: web-research scouts -> new concepts/sources) ---
+$discoverName = "AILearningDiscovery"
+$discoverCmd = Join-Path $PSScriptRoot "discover.cmd"
+schtasks /Create /TN $discoverName /SC WEEKLY /D SUN /ST 03:00 /F /TR "$discoverCmd"
+Set-ScheduledTask -TaskName $discoverName -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) | Out-Null
+
+Write-Host "Scheduled '$taskName' daily at $startTime and '$discoverName' weekly (Sun 03:00); catch-up enabled."
+Write-Host "Runs: $cmd  |  $discoverCmd"
