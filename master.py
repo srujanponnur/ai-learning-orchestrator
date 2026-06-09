@@ -56,6 +56,34 @@ def gate(cid: str, level: int, units: list[dict], note: str) -> tuple[bool, str,
     return True, "", evidence
 
 
+def earned_level(cid: str, units: list[dict]) -> int:
+    """Highest mastery a concept has *earned* from unit status (evidence-based; auto caps at 3)."""
+    _, _, touching, built, built_reinf = _evidence(cid, units)
+    if len(built_reinf) >= 2:
+        return 3
+    if built:
+        return 2
+    if any(str(u.get("status", "")).lower() in {"in_progress", "in-progress", "learning"}
+           for u in touching):
+        return 1
+    return 0
+
+
+def auto_advance(concepts: list[dict], units: list[dict]) -> list[tuple[str, int, int]]:
+    """Bump each concept up to the level its built units justify. Returns [(cid, old, new)]."""
+    changes: list[tuple[str, int, int]] = []
+    for c in concepts:
+        cur = c.get("mastery", 0)
+        earned = earned_level(c["id"], units)
+        if earned > cur:
+            store.set_mastery(c["id"], earned)
+            _, _, _, built, _ = _evidence(c["id"], units)
+            store.append_mastery_log(c["id"], cur, earned,
+                                     sorted({u["id"] for u in built}), "auto from Notion status")
+            changes.append((c["id"], cur, earned))
+    return changes
+
+
 def cmd_status(units: list[dict], concepts: list[dict]) -> None:
     print(f"{'concept':<32}{'mastery':^9}  next")
     print("-" * 78)

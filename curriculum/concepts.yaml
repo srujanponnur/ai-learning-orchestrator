@@ -87,3 +87,17 @@ concepts:
   - { id: pii-privacy,              name: PII / privacy / compliance,    domain: guardrails,    tier: intermediate, prerequisites: [structured-outputs],               mastery: 0 }
   # serving depth
   - { id: continuous-batching,      name: Continuous batching & speculative decoding, domain: serving, tier: advanced, prerequisites: [serving-quantization],       mastery: 0 }
+
+  # === Foundations (expanded 2026-06-08) — the groundwork before everything above ===
+  - { id: llm-basics,           name: How LLMs work (next-token, context),     domain: io,            tier: foundational, prerequisites: [],                    mastery: 0 }
+  - { id: tokenization,         name: Tokens & tokenization,                   domain: io,            tier: foundational, prerequisites: [llm-basics],          mastery: 0 }
+  - { id: context-window,       name: Context window & limits,                 domain: io,            tier: foundational, prerequisites: [tokenization],       mastery: 0 }
+  - { id: api-sdk-basics,       name: API & SDK basics (auth, making calls),   domain: io,            tier: foundational, prerequisites: [llm-basics],          mastery: 0 }
+  - { id: chat-format,          name: Chat format & message roles,             domain: io,            tier: foundational, prerequisites: [prompt-fundamentals], mastery: 0 }
+  - { id: system-prompts,       name: System prompts & role setting,           domain: io,            tier: foundational, prerequisites: [prompt-fundamentals], mastery: 0 }
+  - { id: prompt-templating,    name: Prompt templates & few-shot examples,    domain: io,            tier: foundational, prerequisites: [prompt-fundamentals], mastery: 0 }
+  - { id: sampling-params,      name: Sampling (temperature/top-p) & determinism, domain: io,         tier: foundational, prerequisites: [prompt-fundamentals], mastery: 0 }
+  - { id: model-selection,      name: Model selection (capability/cost/latency), domain: cost,        tier: foundational, prerequisites: [llm-basics],          mastery: 0 }
+  - { id: cost-basics,          name: Cost basics (tokens to dollars),         domain: cost,          tier: foundational, prerequisites: [tokenization],       mastery: 0 }
+  - { id: error-handling,       name: Errors, retries & rate limits,           domain: observability, tier: foundational, prerequisites: [api-sdk-basics],      mastery: 0 }
+  - { id: chunking,             name: Chunking & text splitting,               domain: retrieval,     tier: foundational, prerequisites: [tokenization],       mastery: 0 }

@@ -109,54 +109,52 @@ def extract_units(text: str) -> list[dict]:
     return data
 
 
-def main() -> int:
-    args = [a for a in sys.argv[1:]]
-    dry_run = "--dry-run" in args
-    model = None
-    if "--model" in args:
-        model = args[args.index("--model") + 1]
-        args = [a for i, a in enumerate(args) if a != "--model" and args[i - 1] != "--model"]
-    target = next((a for a in args if not a.startswith("--")), "next")
-
+def propose_and_write(target: str = "next", model: str | None = None,
+                      dry_run: bool = False) -> list[dict]:
+    """Propose 1–3 spiral units for `target`, validate, write survivors. Returns accepted units."""
     concepts = store.load_concepts()
     graph_ids = set(store.concepts_by_id(concepts))
     units = store.load_units()
     covered = store.covered_concepts(units)
     existing_ids = {u["id"] for u in units}
 
-    print(f"curating target={target!r} · {len(concepts)} concepts · {len(units)} existing units "
-          f"· {len(covered)} concepts covered{' · DRY RUN' if dry_run else ''}\n")
+    print(f"curating target={target!r} · {len(concepts)} concepts · {len(units)} units "
+          f"· {len(covered)} covered{' · DRY RUN' if dry_run else ''}")
 
     prompt = build_prompt(target, concepts, units, covered)
     raw = agent.run_text_sync(prompt, SYSTEM, model=model)
     proposed = extract_units(raw)
-    print(f"curator proposed {len(proposed)} unit(s).\n")
+    print(f"curator proposed {len(proposed)} unit(s).")
 
-    accepted = 0
+    accepted: list[dict] = []
     for u in proposed:
         uid = u.get("id", "<no id>")
         errors, warnings = validate_unit(u, graph_ids, covered, existing_ids)
         if errors:
-            print(f"✗ {uid} — REJECTED:")
-            for e in errors:
-                print(f"    - {e}")
-            print()
+            print(f"✗ {uid} — REJECTED: {'; '.join(errors)}")
             continue
         for w in warnings:
             print(f"  ⚠ {uid}: {w}")
-        if dry_run:
-            print(f"✓ {uid} — '{u.get('title')}' [{u.get('tier')}] "
-                  f"introduces={u.get('introduces')} reinforces={u.get('reinforces')} (not written)\n")
-        else:
-            path = store.write_unit(u)
-            print(f"✓ {uid} — '{u.get('title')}' [{u.get('tier')}] -> {path}\n")
-        # let later units in this batch build on the ones we just accepted
+        if not dry_run:
+            store.write_unit(u)
+        # let later units in this batch build on the ones just accepted
         covered.update((u.get("introduces") or []) + (u.get("reinforces") or []))
         existing_ids.add(uid)
-        accepted += 1
+        accepted.append(u)
+        print(f"✓ {uid} — '{u.get('title')}' [{u.get('tier')}]{' (dry)' if dry_run else ''}")
 
-    print(f"done: {accepted}/{len(proposed)} accepted"
-          f"{' (dry run — nothing written)' if dry_run else ''}.")
+    print(f"done: {len(accepted)}/{len(proposed)} accepted.")
+    return accepted
+
+
+def main() -> int:
+    args = sys.argv[1:]
+    dry_run = "--dry-run" in args
+    model = None
+    if "--model" in args and args.index("--model") + 1 < len(args):
+        model = args[args.index("--model") + 1]
+    target = next((a for a in args if not a.startswith("--") and a != model), "next")
+    accepted = propose_and_write(target, model=model, dry_run=dry_run)
     return 0 if accepted else 1
 
 

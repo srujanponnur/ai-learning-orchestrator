@@ -24,13 +24,18 @@ def main() -> int:
         return 1
 
     units = store.load_units()
+    concepts = store.load_concepts()
     print(f"syncing {len(units)} units to Notion ...")
     try:
         db_id, note = notion.ensure_units_db(token)
         print(f"  {note}")
-        created = updated = 0
+        notion.write_legend(token, concepts, units)
+        print("  legend page updated")
+        created = updated = bodies = 0
         for u in units:
-            action = notion.upsert_unit(token, db_id, u)
+            action, page_id = notion.upsert_unit(token, db_id, u)
+            if notion.write_body_if_empty(token, page_id, u):
+                bodies += 1
             created += action == "created"
             updated += action == "updated"
             print(f"  ✓ {u['id']} ({action})")
@@ -38,7 +43,7 @@ def main() -> int:
         print(f"✗ {e}")
         return 1
 
-    print(f"done: {created} created, {updated} updated · db id cached in .notion.json")
+    print(f"done: {created} created, {updated} updated, {bodies} page-bodies written · cached in .notion.json")
     return 0
 
 
