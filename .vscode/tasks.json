@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ALO: Run daily cycle (live)",
+      "detail": "Run run_cycle.py now — output streams to this terminal.",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "args": ["run_cycle.py"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "ALO: Discovery — dry run (2 scouts)",
+      "detail": "discover.py --dry-run --scouts 2 — preview, no writes.",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "args": ["discover.py", "--dry-run", "--scouts", "2"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "ALO: Discovery — real run",
+      "detail": "discover.py (all scouts) — appends discovered concepts/sources.",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "args": ["discover.py"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "ALO: Watch cycle log (live tail)",
+      "detail": "Follow cycle.log — see each scheduled daily run as it happens.",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-Command",
+        "if (!(Test-Path cycle.log)) { New-Item cycle.log -ItemType File | Out-Null }; Get-Content cycle.log -Wait -Tail 40"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "ALO: Watch discovery log (live tail)",
+      "detail": "Follow discover.log — see each scheduled weekly swarm run.",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-Command",
+        "if (!(Test-Path discover.log)) { New-Item discover.log -ItemType File | Out-Null }; Get-Content discover.log -Wait -Tail 40"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    }
+  ]
+}
