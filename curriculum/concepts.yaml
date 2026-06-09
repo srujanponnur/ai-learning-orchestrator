@@ -115,3 +115,9 @@ concepts:
   - { id: gpu-autoscaling,       name: GPU autoscaling & scale-to-zero serving, domain: gpu,           tier: advanced,     prerequisites: [gpu-hosting, latency-scaling],           mastery: 0 }
   - { id: gpu-cost-optimization, name: GPU cost/throughput optimization ($/token, spot, right-sizing), domain: gpu, tier: advanced, prerequisites: [gpu-hosting, gpu-utilization],       mastery: 0 }
   - { id: gpu-sharing,           name: GPU sharing (MIG, time-slicing, fractional GPUs), domain: gpu,  tier: advanced,     prerequisites: [gpu-hosting],                            mastery: 0 }
+
+  # === Context & ops (added 2026-06-08) — compaction, latency, deploying Claude-powered apps ===
+  # NB: "caching the context window" is already covered by `prompt-caching` (cost) above.
+  - { id: compaction,           name: Context compaction (summarize history to fit the window), domain: context, tier: advanced, prerequisites: [context-engineering],            mastery: 0 }
+  - { id: response-latency,     name: Reducing response latency (streaming, caching, output caps, model tier, parallel calls), domain: ops, tier: intermediate, prerequisites: [streaming, prompt-caching, model-selection], mastery: 0 }
+  - { id: llm-app-deployment,   name: Deploying & operating LLM apps (containerize, scaling, gateways, secrets, monitoring), domain: ops, tier: advanced, prerequisites: [api-sdk-basics, error-handling, tracing], mastery: 0 }
