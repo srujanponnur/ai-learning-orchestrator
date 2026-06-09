@@ -54,7 +54,8 @@ def build_prompt(target: str, concepts: list[dict], units: list[dict], covered: 
     for c in concepts:
         mark = "COVERED" if c["id"] in covered else "uncovered"
         lines_graph.append(
-            f"- {c['id']} [{c['domain']}/{c['tier']}] prereqs={c.get('prerequisites') or []} -> {mark}"
+            f"- {c['id']} [{c['domain']}/{c['tier']}] m{c.get('mastery', 0)} "
+            f"prereqs={c.get('prerequisites') or []} -> {mark}"
         )
         if c["id"] not in covered:
             by_domain.setdefault(c["domain"], []).append(c["id"])
@@ -65,10 +66,12 @@ def build_prompt(target: str, concepts: list[dict], units: list[dict], covered: 
         for u in units
     ]
     frontier = "\n".join(f"  {dom}: {', '.join(ids)}" for dom, ids in sorted(by_domain.items()))
+    due = sorted(c["id"] for c in concepts if c["id"] in covered and c.get("mastery", 0) < 3)
     highest = store.highest_unit_number(units)
 
     if target == "next":
-        ask = "Propose the next 1–3 units that best advance the spiral from the current state."
+        ask = ("Propose the next 1–3 units that best advance the spiral from the current state, "
+               "preferring to reinforce concepts listed as 'due for depth'.")
     else:
         ask = (f"Bias the next 1–3 units toward the {target!r} domain while honoring every spiral "
                "rule (prereqs covered, reinforce prior concepts, sensible tier progression).")
@@ -82,6 +85,8 @@ CONCEPT GRAPH (id [domain/tier] prereqs -> covered?):
 {chr(10).join(lines_graph)}
 
 COVERED concepts: {', '.join(sorted(covered)) or '(none)'}
+
+DUE FOR DEPTH (covered, mastery<3 — reinforce these to climb the ladder): {', '.join(due) or '(none)'}
 
 FRONTIER (uncovered) concepts by domain:
 {frontier or '  (all covered)'}

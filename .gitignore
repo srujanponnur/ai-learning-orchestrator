@@ -33,3 +33,6 @@ Thumbs.db
 *.log
 .cache/
 data/local/
+
+# cached Notion page/database ids (local state)
+.notion.json

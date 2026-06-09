@@ -1,6 +1,6 @@
 ---
 id: u10-graphrag-knowledge
-title: GraphRAG: Multi-Hop Retrieval over a Knowledge Graph
+title: "GraphRAG: Multi-Hop Retrieval over a Knowledge Graph"
 tier: advanced
 created: 2026-06-07
 status: todo

@@ -1,6 +1,6 @@
 ---
 id: u11-agentic-rag-orchestrator
-title: Agentic RAG: An Agent That Decides How to Retrieve
+title: "Agentic RAG: An Agent That Decides How to Retrieve"
 tier: advanced
 created: 2026-06-07
 status: todo

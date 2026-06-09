@@ -1,6 +1,6 @@
 ---
 id: u09-rerank-and-rewrite
-title: Precision Retrieval: Query Rewriting + Reranking
+title: "Precision Retrieval: Query Rewriting + Reranking"
 tier: advanced
 created: 2026-06-07
 status: todo
