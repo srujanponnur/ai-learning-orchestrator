@@ -176,3 +176,41 @@ def append_mastery_log(concept_id: str, old: int, new: int, evidence: list[str],
         MASTERY_LOG.write_text(
             "# Mastery log\n\nEvidence-backed mastery changes written by `master.py` "
             "(newest at bottom).\n\n" + entry, encoding="utf-8")
+
+
+# --- discovery procurement (append-only, format-preserving) ---
+
+SOURCES_MD = CURRICULUM / "sources.md"
+_DISCOVERED_CONCEPTS_HEADER = "# === Discovered (auto, via discover.py) ==="
+_DISCOVERED_SOURCES_HEADER = "## Discovered (auto, via discover.py)"
+
+
+def concept_ids(path: Path = CONCEPTS_YAML) -> set[str]:
+    return {c["id"] for c in load_concepts(path)}
+
+
+def append_concept(c: dict, path: Path = CONCEPTS_YAML) -> bool:
+    """Append a new concept (flow style) under the discovered section. False if the id already exists."""
+    if c["id"] in concept_ids(path):
+        return False
+    text = path.read_text(encoding="utf-8").rstrip("\n")
+    if _DISCOVERED_CONCEPTS_HEADER not in text:
+        text += "\n\n  " + _DISCOVERED_CONCEPTS_HEADER
+    prereqs = ", ".join(c.get("prerequisites") or [])
+    line = ("  - { id: " + c["id"] + ", name: " + _dq(c["name"]) +
+            ", domain: " + c.get("domain", "misc") + ", tier: " + c.get("tier", "intermediate") +
+            ", prerequisites: [" + prereqs + "], mastery: 0 }")
+    path.write_text(text + "\n" + line + "\n", encoding="utf-8")
+    return True
+
+
+def append_source(name: str, url: str, note: str = "", path: Path = SOURCES_MD) -> bool:
+    """Append a source bullet under the discovered section. False if the url is already present."""
+    text = path.read_text(encoding="utf-8") if path.exists() else ""
+    if url and url in text:
+        return False
+    bullet = f"- **{name}** — <{url}>" + (f" — {note}" if note else "")
+    if _DISCOVERED_SOURCES_HEADER not in text:
+        text = text.rstrip("\n") + "\n\n" + _DISCOVERED_SOURCES_HEADER + "\n"
+    path.write_text(text.rstrip("\n") + "\n" + bullet + "\n", encoding="utf-8")
+    return True

@@ -73,3 +73,37 @@ async def run_text(prompt: str, system_prompt: str, *, model: str | None = None,
 def run_text_sync(prompt: str, system_prompt: str, *, model: str | None = None,
                   max_turns: int = 1) -> str:
     return anyio.run(lambda: run_text(prompt, system_prompt, model=model, max_turns=max_turns))
+
+
+async def run_research(prompt: str, system_prompt: str, *,
+                       allowed_tools: tuple[str, ...] = ("WebSearch", "WebFetch"),
+                       max_turns: int = 20, model: str | None = None) -> str:
+    """Multi-turn run with read-only web tools allow-listed (no bypassPermissions). Returns text.
+
+    Used by the discovery swarm — scouts search/fetch the web on the Max subscription. We allow-list
+    only WebSearch/WebFetch (scoped) rather than disabling all approval gates.
+    """
+    cli = ensure_claude_cli()
+    if os.environ.pop("ANTHROPIC_API_KEY", None):
+        print("note: ignoring ANTHROPIC_API_KEY for this run — using the Max subscription.")
+    options = ClaudeAgentOptions(
+        system_prompt=system_prompt,
+        allowed_tools=list(allowed_tools),
+        max_turns=max_turns,
+        model=model,
+        cli_path=cli,
+    )
+    parts: list[str] = []
+    async for message in query(prompt=prompt, options=options):
+        if isinstance(message, AssistantMessage):
+            for block in message.content:
+                if isinstance(block, TextBlock):
+                    parts.append(block.text)
+    return "".join(parts)
+
+
+def run_research_sync(prompt: str, system_prompt: str, *,
+                      allowed_tools: tuple[str, ...] = ("WebSearch", "WebFetch"),
+                      max_turns: int = 20, model: str | None = None) -> str:
+    return anyio.run(lambda: run_research(prompt, system_prompt, allowed_tools=allowed_tools,
+                                          max_turns=max_turns, model=model))
